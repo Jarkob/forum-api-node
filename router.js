@@ -4,7 +4,7 @@ var router = express.Router();
 // controllers
 var topicController = require('./app/controllers/topicController');
 var postController = require('./app/controllers/postController');
-var commentController = require('./app/controller/commentController');
+var commentController = require('./app/controllers/commentController');
 
 // topic routes
 router.get('/topics', topicController.getAll);

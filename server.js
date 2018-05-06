@@ -16,7 +16,7 @@ app.use(bodyParser.json());
 var port = process.env.PORT || 8080; // set port
 
 // define routes
-var router = require('router');
+var router = require('./router');
 
 // middleware to use for all requests
 router.use(function(req, res, next) {
