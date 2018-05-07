@@ -2,12 +2,9 @@
 var express = require('express');
 var app = express();
 var bodyParser = require('body-parser');
-var mongoose = require('mongoose');
+var db = require('./db');
 
 var Topic = require('./app/models/topic');
-
-// connect to db
-mongoose.connect('mongodb://127.0.0.1:27017');
 
 // use bodyParser to get POST data
 app.use(bodyParser.urlencoded({extended: true}));

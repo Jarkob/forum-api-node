@@ -66,5 +66,5 @@ exports.delete = function(req, res) {
             res.send(err);
         }
         res.json({message: 'Post deleted'});
-    })
+    });
 }

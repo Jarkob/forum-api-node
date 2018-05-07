@@ -5,6 +5,8 @@ var router = express.Router();
 var topicController = require('./app/controllers/topicController');
 var postController = require('./app/controllers/postController');
 var commentController = require('./app/controllers/commentController');
+var userController = require('./app/controllers/userController');
+var authController = require('./app/controllers/authController');
 
 // topic routes
 router.get('/topics', topicController.getAll);
@@ -26,5 +28,15 @@ router.get('/comments/:comment_id', commentController.getById);
 router.post('/comments', commentController.create);
 router.put('/comments/:comment_id', commentController.update);
 router.delete('/comments/:comment_id', commentController.delete);
+
+// user routes
+router.get('/users', userController.getAll);
+router.get('/users/:user_id', userController.getById);
+// TODO
+router.delete('/users/:user_id', userController.delete);
+
+// auth test routes
+router.post('/register', authController.register);
+router.get('/me', authController.get);
 
 module.exports = router;
