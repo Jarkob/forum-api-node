@@ -11,6 +11,10 @@ exports.getAll = function(req, res) {
 
 exports.getById = function(req, res) {
     Topic.findById(req.params.topic_id, function(err, topic) {
+        
+        // debug
+        console.log(req.params.topic_id);
+        
         if(err) {
             res.send(err);
         }
