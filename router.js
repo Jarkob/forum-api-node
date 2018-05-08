@@ -38,5 +38,7 @@ router.delete('/users/:user_id', userController.delete);
 // auth test routes
 router.post('/register', authController.register);
 router.get('/me', authController.get);
+router.post('/login', authController.login);
+router.get('/logout', authController.logout);
 
 module.exports = router;

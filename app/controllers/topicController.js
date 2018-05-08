@@ -10,10 +10,11 @@ exports.getAll = function(req, res) {
 }
 
 exports.getById = function(req, res) {
-    Topic.findById(req.params.topic_id, function(err, topic) {
+    Topic.findOne({'_id': req.params.topic_id}, function(err, topic) {
         
         // debug
         console.log(req.params.topic_id);
+        console.log(topic);
         
         if(err) {
             res.send(err);
