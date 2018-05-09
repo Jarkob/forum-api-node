@@ -1,6 +1,8 @@
 var express = require('express');
 var router = express.Router();
 
+var VerifyToken = require('./app/auth/verifyToken');
+
 // controllers
 var topicController = require('./app/controllers/topicController');
 var postController = require('./app/controllers/postController');
@@ -37,7 +39,7 @@ router.delete('/users/:user_id', userController.delete);
 
 // auth test routes
 router.post('/register', authController.register);
-router.get('/me', authController.get);
+router.get('/me', VerifyToken, authController.get);
 router.post('/login', authController.login);
 router.get('/logout', authController.logout);
 
