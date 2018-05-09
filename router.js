@@ -12,21 +12,23 @@ var authController = require('./app/controllers/authController');
 
 // topic routes
 router.get('/topics', topicController.getAll);
-router.get('/topics/:topic_id', topicController.getById);
+router.get('/topic/:topic_id', topicController.getById);
 router.post('/topics', topicController.create);
 router.put('/topics/:topic_id', topicController.update);
 router.delete('/topics/:topic_id', topicController.delete);
 
 // post routes
-router.get('/posts', postController.getAll);
-router.get('/posts/:post_id', postController.getById);
+// router.get('/posts', postController.getAll); // obsolete
+router.get('/posts/:topic_id', postController.getByTopicId);
+router.get('/post/:post_id', postController.getById);
 router.post('/posts', postController.create);
 router.put('/posts/:post_id', postController.update);
 router.delete('/posts/:post_id', postController.delete);
 
 // comment routes
 router.get('/comments', commentController.getAll);
-router.get('/comments/:comment_id', commentController.getById);
+router.get('/comments/:post_id', commentController.getByPostId);
+router.get('/comment/:comment_id', commentController.getById);
 router.post('/comments', commentController.create);
 router.put('/comments/:comment_id', commentController.update);
 router.delete('/comments/:comment_id', commentController.delete);

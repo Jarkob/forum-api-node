@@ -9,7 +9,7 @@ exports.getAll = function(req, res) {
     });
 }
 
-exports.getAllByTopic = function(req, res) {
+exports.getByTopicId = function(req, res) {
     Post.find({topicId: req.params.topic_id}, function(err, posts) {
         if(err) {
             res.send(err);

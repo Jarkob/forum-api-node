@@ -9,6 +9,15 @@ exports.getAll = function(req, res) {
     });
 }
 
+exports.getByPostId = function(req, res) {
+    Comment.find({postId: req.params.post_id}, function(err, comments) {
+        if(err) {
+            res.send(err);
+        }
+        res.json(comments);
+    })
+}
+
 exports.getById = function(req, res) {
     Comment.findById(req.params.comment_id, function(err, comment) {
         if(err) {
