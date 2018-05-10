@@ -4,6 +4,11 @@ var jwt = require('jsonwebtoken');
 var bcrypt = require('bcryptjs');
 var config = require('../../config');
 
+/**
+ * registrate user
+ * @param {new user object} req 
+ * @param {token} res 
+ */
 exports.register = function(req, res) {
     var hashedPassword = bcrypt.hashSync(req.body.password, 8);
 
@@ -32,6 +37,12 @@ exports.register = function(req, res) {
     });
 }
 
+/**
+ * get user, not sure for what
+ * @param {*} req 
+ * @param {*} res 
+ * @param {*} next 
+ */
 exports.get = function(req, res, next) {
 
     User.findById(req.userId, {password: 0}, function(err, user) {
@@ -47,6 +58,11 @@ exports.get = function(req, res, next) {
     });
 }
 
+/**
+ * login user
+ * @param {*} req 
+ * @param {*} res 
+ */
 exports.login = function(req, res) {
     User.findOne({email: req.body.email}, function(err, user) {
         if(err) {
@@ -69,6 +85,11 @@ exports.login = function(req, res) {
     });
 }
 
+/**
+ * logout user
+ * @param {*} req 
+ * @param {*} res 
+ */
 exports.logout = function(req, res) {
     res.status(200).send({auth: false, token: null});
 }
