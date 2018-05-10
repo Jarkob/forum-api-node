@@ -51,7 +51,8 @@ exports.create = function(req, res) {
     var comment = new Comment();
     comment.postId = req.body.postId;
     comment.text = req.body.text;
-    comment.commentTime = req.body.commentTime;
+    // set time
+    comment.commentTime = req.body.commentTime ? req.body.commentTime : new Date();
     comment.username = req.body.username;
 
     // save comment and check for errors

@@ -53,7 +53,8 @@ exports.create = function(req, res) {
     post.title = req.body.title;
     post.text = req.body.text;
     post.status = req.body.status;
-    post.postTime = req.body.postTime;
+    // set time
+    post.postTime = req.body.postTime ? req.body.postTime : new Date();
     post.username = req.body.username;
 
     // save Post and check for errors
