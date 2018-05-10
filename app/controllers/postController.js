@@ -1,5 +1,10 @@
 var Post = require('../models/post');
 
+/**
+ * get all posts
+ * @param {*} req 
+ * @param {*} res 
+ */
 exports.getAll = function(req, res) {
     Post.find(function(err, posts) {
         if(err) {
@@ -9,6 +14,11 @@ exports.getAll = function(req, res) {
     });
 }
 
+/**
+ * get all posts for a specific topic
+ * @param {*} req 
+ * @param {*} res 
+ */
 exports.getByTopicId = function(req, res) {
     Post.find({topicId: req.params.topic_id}, function(err, posts) {
         if(err) {
@@ -18,6 +28,11 @@ exports.getByTopicId = function(req, res) {
     })
 }
 
+/**
+ * get one post by id
+ * @param {*} req 
+ * @param {*} res 
+ */
 exports.getById = function(req, res) {
     Post.findById(req.params.post_id, function(err, post) {
         if(err) {
@@ -27,6 +42,11 @@ exports.getById = function(req, res) {
     });
 }
 
+/**
+ * create new post
+ * @param {contains the new post object} req 
+ * @param {*} res 
+ */
 exports.create = function(req, res) {
     var post = new Post();
     post.topicId = req.body.topicId;
@@ -45,6 +65,11 @@ exports.create = function(req, res) {
     });
 }
 
+/**
+ * update post
+ * @param {*} req 
+ * @param {*} res 
+ */
 exports.update = function(req, res) {
     Post.findById(req.params.post_id, function(err, post) {
         if(err) {
@@ -67,6 +92,11 @@ exports.update = function(req, res) {
     });
 }
 
+/**
+ * delete post
+ * @param {*} req 
+ * @param {*} res 
+ */
 exports.delete = function(req, res) {
     Post.remove({
         _id: req.params.post_id

@@ -1,5 +1,10 @@
 var Comment = require('../models/comment');
 
+/**
+ * get all comments (obsolete)
+ * @param {*} req 
+ * @param {*} res 
+ */
 exports.getAll = function(req, res) {
     Comment.find(function(err, comments) {
         if(err) {
@@ -9,6 +14,11 @@ exports.getAll = function(req, res) {
     });
 }
 
+/**
+ * get all comments of a post
+ * @param {*} req 
+ * @param {*} res 
+ */
 exports.getByPostId = function(req, res) {
     Comment.find({postId: req.params.post_id}, function(err, comments) {
         if(err) {
@@ -18,6 +28,11 @@ exports.getByPostId = function(req, res) {
     })
 }
 
+/**
+ * get one comment by id
+ * @param {*} req 
+ * @param {*} res 
+ */
 exports.getById = function(req, res) {
     Comment.findById(req.params.comment_id, function(err, comment) {
         if(err) {
@@ -27,6 +42,11 @@ exports.getById = function(req, res) {
     });
 }
 
+/**
+ * create new comment
+ * @param {contains the comment object} req 
+ * @param {*} res 
+ */
 exports.create = function(req, res) {
     var comment = new Comment();
     comment.postId = req.body.postId;
@@ -43,6 +63,11 @@ exports.create = function(req, res) {
     });
 }
 
+/**
+ * update comment
+ * @param {contains the new comment object} req 
+ * @param {*} res 
+ */
 exports.update = function(req, res) {
     Comment.findById(req.params.comment_id, function(err, comment) {
         if(err) {
@@ -63,6 +88,11 @@ exports.update = function(req, res) {
     });
 }
 
+/**
+ * delete comment
+ * @param {*} req 
+ * @param {*} res 
+ */
 exports.delete = function(req, res) {
     Comment.remove({
         _id: req.params.comment_id

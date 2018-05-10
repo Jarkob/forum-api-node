@@ -1,5 +1,10 @@
 var Topic = require('../models/topic');
 
+/**
+ * get all topics
+ * @param {*} req 
+ * @param {*} res 
+ */
 exports.getAll = function(req, res) {
     Topic.find(function(err, topics) {
         if(err) {
@@ -9,13 +14,13 @@ exports.getAll = function(req, res) {
     });
 }
 
+/**
+ * get one topic by id
+ * @param {*} req 
+ * @param {*} res 
+ */
 exports.getById = function(req, res) {
     Topic.findOne({'_id': req.params.topic_id}, function(err, topic) {
-        
-        // debug
-        console.log(req.params.topic_id);
-        console.log(topic);
-        
         if(err) {
             res.send(err);
         }
@@ -23,6 +28,11 @@ exports.getById = function(req, res) {
     });
 }
 
+/**
+ * create new topic
+ * @param {contains the new topic object} req 
+ * @param {*} res 
+ */
 exports.create = function(req, res) {
     var topic = new Topic();
     topic.title = req.body.title;
@@ -36,6 +46,11 @@ exports.create = function(req, res) {
     });
 }
 
+/**
+ * update topic
+ * @param {contains the new topic object} req 
+ * @param {*} res 
+ */
 exports.update = function(req, res) {
     Topic.findById(req.params.topic_id, function(err, topic) {
         if(err) {
@@ -53,6 +68,11 @@ exports.update = function(req, res) {
     });
 }
 
+/**
+ * delete topic
+ * @param {*} req 
+ * @param {*} res 
+ */
 exports.delete = function(req, res) {
     Topic.remove({
         _id: req.params.topic_id
