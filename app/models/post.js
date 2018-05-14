@@ -3,6 +3,7 @@ var Schema = mongoose.Schema;
 
 var PostSchema = new Schema({
     topicId: String,
+    userId: String,
     title: String,
     text: String,
     status: String,
