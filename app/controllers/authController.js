@@ -77,8 +77,10 @@ exports.login = function(req, res) {
             return res.status(401).send({auth: false, token: null});
         }
 
-        var token = jwt.sign({id: user._id}, config.secret, {
-            expiresIn: 86400
+        var token = jwt.sign({}, config.secret, {
+            algorithm: 'RS256',
+            expiresIn: 120,
+            subject: user._id
         });
 
         res.status(200).send({auth: true, token: token});
