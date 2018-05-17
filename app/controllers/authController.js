@@ -83,7 +83,7 @@ exports.login = function(req, res) {
             subject: user._id
         });
 
-        res.status(200).send({auth: true, token: token});
+        res.status(200).send({auth: true, token: token, expiresIn: 120});
     });
 }
 
