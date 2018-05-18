@@ -35,11 +35,13 @@ router.delete('/comments/:comment_id', commentController.delete);
 
 // user routes
 router.get('/users', userController.getAll);
-router.get('/users/:user_id', userController.getById);
-// TODO
+router.get('/user/:user_id', userController.getById);
+router.post('/users', userController.create);
+router.put('/users/:user_id', userController.update);
 router.delete('/users/:user_id', userController.delete);
 
 // auth test routes
+// TODO
 router.post('/register', authController.register);
 router.get('/me', VerifyToken, authController.get);
 router.post('/login', authController.login);
