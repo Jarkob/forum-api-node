@@ -2,6 +2,11 @@ var User = require('../models/user');
 
 var bcrypt = require('bcryptjs');
 
+/**
+ * get all users
+ * @param {*} req 
+ * @param {*} res 
+ */
 exports.getAll = function(req, res) {
     User.find(function(err, users) {
         if(err) {
@@ -11,6 +16,12 @@ exports.getAll = function(req, res) {
     });
 }
 
+
+/**
+ * get one user by id
+ * @param {*} req 
+ * @param {*} res 
+ */
 exports.getById = function(req, res) {
     User.findById(req.params.user_id, function(err, user) {
         if(err) {
@@ -20,6 +31,12 @@ exports.getById = function(req, res) {
     });
 }
 
+
+/**
+ * create new user
+ * @param {*} req 
+ * @param {*} res 
+ */
 exports.create = function(req, res) {
     var hashedPassword = bcrypt.hashSync(req.body.password, 8);
 
@@ -40,6 +57,12 @@ exports.create = function(req, res) {
     });
 }
 
+
+/**
+ * update user
+ * @param {*} req 
+ * @param {*} res 
+ */
 exports.update = function(req, res) {
     User.findById(req.params.user_id, function(err, user) {
         if(err) {
@@ -60,6 +83,12 @@ exports.update = function(req, res) {
     });
 }
 
+
+/**
+ * delete user
+ * @param {*} req 
+ * @param {*} res 
+ */
 exports.delete = function(req, res) {
     User.remove({
         _id: req.params.user_id
