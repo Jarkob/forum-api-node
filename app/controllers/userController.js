@@ -38,6 +38,17 @@ exports.getById = function(req, res) {
  * @param {*} res 
  */
 exports.create = function(req, res) {
+
+    // check if duplicate user exists
+    var duplicateUser = User.find({email: req.body.email}, function(err, user) {
+        if (err) {
+            res.send(err);
+        }
+        if(user) {
+            res.status(400).send('User with email "' + req.body.email + '" already exists.');
+        }
+    })
+
     var hashedPassword = bcrypt.hashSync(req.body.password, 8);
 
     var user = new User();

@@ -28,6 +28,7 @@ exports.register = function(req, res) {
 
         console.log('User was created');
 
+        // TODO
         // create a token
         var token = jwt.sign({id: user._id}, config.secret, {
             expiresIn: 86500 // expires in 24 hours
@@ -83,7 +84,12 @@ exports.login = function(req, res) {
             subject: JSON.stringify(user._id)
         });
 
-        res.status(200).send({auth: true, token: token, expiresIn: 120});
+        res.status(200).send({
+            auth: true,
+            token: token,
+            expiresIn: 120,
+            currentUser: user._id
+        });
     });
 }
 
