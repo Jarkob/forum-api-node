@@ -32,14 +32,32 @@ exports.create = function(req, res) {
     user.birthdate = req.body.birthdate;
 
     // save user and check for errors
-
-    // TODO
-    res.send('NOT IMPLEMENTED: create User POST');
+    user.save(function(err) {
+        if(err) {
+            res.send(err);
+        }
+        res.json({message: 'User created'});
+    });
 }
 
 exports.update = function(req, res) {
-    // TODO
-    res.send('NOT IMPLEMENTED: update User PUT');
+    User.findById(req.params.user_id, function(err, user) {
+        if(err) {
+            res.send(err);
+        }
+        user.username = req.body.username;
+        user.firstname = req.body.firstname;
+        user.lastname = req.body.lastname;
+        user.birthdate = req.body.birthdate;
+
+        // save the user
+        user.save(function(err) {
+            if(err) {
+                res.send(err);
+            }
+            res.json({message: 'User updated'});
+        });
+    });
 }
 
 exports.delete = function(req, res) {
