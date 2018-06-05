@@ -10,6 +10,9 @@ var config = require('../../config');
  * @param {token} res 
  */
 exports.register = function(req, res) {
+    // debug
+    console.log('trying to create user');
+
     var hashedPassword = bcrypt.hashSync(req.body.password, 8);
 
     var user = new User();
@@ -19,7 +22,7 @@ exports.register = function(req, res) {
     user.firstname = req.body.firstname;
     user.lastname = req.body.lastname;
     user.birthdate = req.body.birthdate;
-
+    console.log('user: ', user);
     user.save(function(err) {
         if(err) {
             console.log(err);

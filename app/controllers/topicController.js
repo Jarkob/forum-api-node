@@ -6,7 +6,7 @@ var Topic = require('../models/topic');
  * @param {*} res 
  */
 exports.getAll = function(req, res) {
-    Topic.find(function(err, topics) {
+    Topic.find({}, function(err, topics) {
         if(err) {
             res.send(err);
         }
