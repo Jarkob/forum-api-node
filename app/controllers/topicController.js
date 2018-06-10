@@ -36,13 +36,16 @@ exports.getById = function(req, res) {
 exports.create = function(req, res) {
     var topic = new Topic();
     topic.title = req.body.title;
+    topic.postCount = req.body.postCount;
+    topic.lastPostId = req.body.lastPostId;
+    topic.lastActivity = req.body.lastActivity;
 
     // save topic and check for errors
     topic.save(function(err) {
         if(err) {
             res.send(err);
         }
-        res.json({message: 'Topic created'});
+        res.json(topic);
     });
 }
 
@@ -57,6 +60,9 @@ exports.update = function(req, res) {
             res.send(err);
         }
         topic.title = req.body.title;
+        topic.postCount = req.body.postCount;
+        topic.lastPostId = req.body.lastPostId;
+        topic.lastActivity = req.body.lastActivity;
 
         // save the topic
         topic.save(function(err) {

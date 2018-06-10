@@ -62,7 +62,7 @@ exports.create = function(req, res) {
         if(err) {
             res.send(err);
         }
-        res.json({message: 'Post created'});
+        res.json(post);
     });
 }
 

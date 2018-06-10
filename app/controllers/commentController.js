@@ -60,7 +60,7 @@ exports.create = function(req, res) {
         if(err) {
             res.send(err);
         }
-        res.json({message: 'Comment created'});
+        res.json(comment);
     });
 }
 
