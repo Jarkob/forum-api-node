@@ -19,6 +19,7 @@ var router = require('./router');
 router.use(function(req, res, next) {
     // logging
     console.log('Something is happening.');
+    console.log(req);
     next(); // go to next route
 });
 
