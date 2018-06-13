@@ -79,7 +79,7 @@ exports.login = function(req, res) {
 
         var token = jwt.sign({id: user._id}, config.secret, {
             // algorithm: 'RS256',
-            expiresIn: 120,
+            expiresIn: 7200,
             subject: JSON.stringify(user._id)
         });
 
