@@ -18,7 +18,6 @@ router.put('/topics/:topic_id', VerifyToken, topicController.update);
 router.delete('/topics/:topic_id', VerifyToken, topicController.delete);
 
 // post routes
-// router.get('/posts', postController.getAll); // obsolete
 router.get('/posts/:topic_id', VerifyToken, postController.getByTopicId);
 router.get('/post/:post_id', VerifyToken, postController.getById);
 router.post('/posts', VerifyToken, postController.create);
@@ -41,9 +40,7 @@ router.put('/users/:user_id', userController.update);
 router.delete('/users/:user_id', userController.delete);
 
 // auth test routes
-// TODO
 router.post('/register', authController.register);
-router.get('/me', VerifyToken, authController.get);
 router.post('/login', authController.login);
 router.get('/logout', VerifyToken, authController.logout);
 

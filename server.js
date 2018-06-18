@@ -15,20 +15,6 @@ var port = process.env.PORT || 8080; // set port
 // define routes
 var router = require('./router');
 
-// middleware to use for all requests
-router.use(function(req, res, next) {
-    // logging
-    console.log('Something is happening.');
-    console.log(req);
-    next(); // go to next route
-});
-
-// test route
-router.get('/', function(req, res) {
-    res.json({message: 'api works'});
-});
-
-
 app.use('/api', router);
 
 // start server
