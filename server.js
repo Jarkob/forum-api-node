@@ -10,6 +10,11 @@ var Topic = require('./app/models/topic');
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 
+// add headers
+app.use(function (req, res, next) {
+    res.setHeader('Access-Control-Allow-Origin', '*'); // lol
+});
+
 var port = process.env.PORT || 8080; // set port
 
 // define routes
