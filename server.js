@@ -12,7 +12,7 @@ app.use(bodyParser.json());
 
 // add headers
 var cors = require('cors');
-app.use(cors({origin: '*'}));
+app.use(cors({origin: 'http://jakobbu.bplaced.net'}));
 
 var port = process.env.PORT || 8080; // set port
 
