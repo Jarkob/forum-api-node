@@ -11,8 +11,8 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 
 // add headers, not working
-// var cors = require('cors');
-// app.use(cors({origin: 'http://jakobbu.bplaced.net'}));
+var cors = require('cors');
+app.use(cors({origin: 'http://jakobbu.bplaced.net'}));
 
 var port = process.env.PORT || 8080; // set port
 
