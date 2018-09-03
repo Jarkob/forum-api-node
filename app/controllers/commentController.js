@@ -1,4 +1,5 @@
 var Comment = require('../models/comment');
+var verifyIdentity = require('../auth/verifyIdentity');
 
 /**
  * get all comments (obsolete)
@@ -54,6 +55,7 @@ exports.create = function(req, res) {
     // set time
     comment.commentTime = req.body.commentTime ? req.body.commentTime : new Date();
     comment.username = req.body.username;
+    comment.userId = req.body.userId;
 
     // save comment and check for errors
     comment.save(function(err) {
@@ -74,18 +76,25 @@ exports.update = function(req, res) {
         if(err) {
             res.send(err);
         }
-        comment.postId = req.body.postId;
-        comment.text = req.body.text;
-        comment.commentTime = req.body.commentTime;
-        comment.username = req.body.username;
-
-        // save the comment
-        comment.save(function(err) {
-            if(err) {
-                res.send(err);
-            }
-            res.json({message: 'Comment updated'});
-        });
+        
+        // if user is authorized
+        if(verifyIdentity(req, comment.userId)) {
+            // edit comment
+            // comment.postId = req.body.postId;
+            comment.text = req.body.text;
+            // comment.commentTime = req.body.commentTime;
+            // comment.username = req.body.username; // can't be edited anymore
+            
+            // save the comment
+            comment.save(function(err) {
+                if(err) {
+                    res.send(err);
+                }
+                res.json({message: 'Comment updated'});
+            });
+        } else {
+            res.status(403).send({auth: false, message: 'You can only edit your own comments.'});
+        }
     });
 }
 

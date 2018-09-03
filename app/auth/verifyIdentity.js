@@ -1,7 +1,7 @@
 var jwt = require('jsonwebtoken');
 var config = require('../../config');
 
-function verifyToken(req, res, next) {
+function verifyIdentity(req, user_id) {
     var token = req.headers['authorization'];
     if(!token) {
         return res.status(403).send({auth: false, message: 'No token provided.'});
@@ -13,10 +13,19 @@ function verifyToken(req, res, next) {
             return res.status(500).send({auth: false, message: 'Failed to authenticate token.'});
         }
 
-        // if everything ok, save to request for use in other routes
-        req.userId = decoded.id;
-        next();
+        // check if content id and user id fit
+        // debug
+        console.log('decoded.id: ', decoded.id);
+        console.log('user_id: ', user_id);
+        console.log('decoded: ', decoded);
+
+        if(decoded.id === user_id) {
+            console.log('ture');
+            return true;
+        }
+
+        return false;
     });
 }
 
-module.exports = verifyToken;
+module.exports = verifyIdentity;
