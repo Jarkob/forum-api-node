@@ -80,10 +80,7 @@ exports.update = function(req, res) {
         // if user is authorized
         if(verifyIdentity(req, comment.userId)) {
             // edit comment
-            // comment.postId = req.body.postId;
             comment.text = req.body.text;
-            // comment.commentTime = req.body.commentTime;
-            // comment.username = req.body.username; // can't be edited anymore
             
             // save the comment
             comment.save(function(err) {
