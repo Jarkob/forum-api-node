@@ -101,12 +101,25 @@ exports.update = function(req, res) {
  * @param {*} res 
  */
 exports.delete = function(req, res) {
-    Comment.remove({
-        _id: req.params.comment_id
-    }, function(err, comment) {
+    Comment.findById(req.params.comment_id, function(err, comment) {
         if(err) {
             res.send(err);
         }
-        res.json({message: 'Comment deleted'});
-    })
+
+        // if user is authorized
+        if(verifyIdentity(req, comment.userId)) {
+            // delete comment
+            Comment.remove({
+                _id: req.params.comment_id
+            }, function(err, comment) {
+                if(err) {
+                    res.send(err);
+                }
+                res.json({message: 'Comment deleted'});
+            });
+        } else {
+            // unauthorized
+            res.status(403).send({auth: false, message: 'You can only delete your own comments.'});
+        }
+    });
 }
