@@ -36,6 +36,7 @@ exports.getById = function(req, res) {
  */
 exports.create = function(req, res) {
     var topic = new Topic();
+    topic.userId = req.body.userId;
     topic.title = req.body.title;
     topic.postCount = req.body.postCount;
     topic.lastPostId = req.body.lastPostId;
@@ -94,6 +95,8 @@ exports.delete = function(req, res) {
         if (err) {
             res.send(err);
         }
+
+        console.log('topic userid: ', topic.userId);
 
         // if user is authorized
         if (verifyIdentity(req, topic.userId)) {
