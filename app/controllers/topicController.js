@@ -96,8 +96,6 @@ exports.delete = function(req, res) {
             res.send(err);
         }
 
-        console.log('topic userid: ', topic.userId);
-
         // if user is authorized
         if (verifyIdentity(req, topic.userId)) {
             // delete topic
