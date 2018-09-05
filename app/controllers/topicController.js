@@ -1,4 +1,5 @@
 var Topic = require('../models/topic');
+var verifyIdentity = require('../auth/verifyIdentity');
 
 /**
  * get all topics
@@ -7,7 +8,7 @@ var Topic = require('../models/topic');
  */
 exports.getAll = function(req, res) {
     Topic.find({}, function(err, topics) {
-        if(err) {
+        if (err) {
             res.send(err);
         }
         res.json(topics);
@@ -21,7 +22,7 @@ exports.getAll = function(req, res) {
  */
 exports.getById = function(req, res) {
     Topic.findOne({'_id': req.params.topic_id}, function(err, topic) {
-        if(err) {
+        if (err) {
             res.send(err);
         }
         res.json(topic);
@@ -42,7 +43,7 @@ exports.create = function(req, res) {
 
     // save topic and check for errors
     topic.save(function(err) {
-        if(err) {
+        if (err) {
             res.send(err);
         }
         res.json(topic);
@@ -56,21 +57,30 @@ exports.create = function(req, res) {
  */
 exports.update = function(req, res) {
     Topic.findById(req.params.topic_id, function(err, topic) {
-        if(err) {
+        if (err) {
             res.send(err);
         }
-        topic.title = req.body.title;
-        topic.postCount = req.body.postCount;
-        topic.lastPostId = req.body.lastPostId;
-        topic.lastActivity = req.body.lastActivity;
 
-        // save the topic
-        topic.save(function(err) {
-            if(err) {
-                res.send(err);
-            }
-            res.json({message: 'Topic updated'});
-        });
+        // if user is authorized
+        // won't work like this because every client needs to be able to edit the topic attributes
+        // if(verifyIdentity(req, post.userId)) {
+            // edit topic
+            // ugly hack, should not be allowed for normal users
+            topic.title = req.body.title;
+            topic.postCount = req.body.postCount;
+            topic.lastPostId = req.body.lastPostId;
+            topic.lastActivity = req.body.lastActivity;
+    
+            // save the topic
+            topic.save(function(err) {
+                if(err) {
+                    res.send(err);
+                }
+                res.json({message: 'Topic updated'});
+            });
+        // } else {
+        //     res.status(403).send({auth: false, message: 'You can only edit your own topics'});
+        // }
     });
 }
 
@@ -80,12 +90,24 @@ exports.update = function(req, res) {
  * @param {*} res 
  */
 exports.delete = function(req, res) {
-    Topic.remove({
-        _id: req.params.topic_id
-    }, function(err, topic) {
-        if(err) {
+    Topic.findById(req.params.topic_id, function(err, topic) {
+        if (err) {
             res.send(err);
         }
-        res.json({message: 'Topic deleted'});
-    })
+
+        // if user is authorized
+        if (verifyIdentity(req, topic.userId)) {
+            // delete topic
+            Topic.remove({
+                _id: req.params.topic_id
+            }, function(err, topic) {
+                if (err) {
+                    res.send(err);
+                }
+                res.json({message: 'Topic deleted'});
+            });
+        } else {
+            res.status(403).send({auth: false, message: 'You can only delete your own topics.'});
+        }
+    });
 }
