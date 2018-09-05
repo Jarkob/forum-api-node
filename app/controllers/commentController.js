@@ -8,7 +8,7 @@ var verifyIdentity = require('../auth/verifyIdentity');
  */
 exports.getAll = function(req, res) {
     Comment.find(function(err, comments) {
-        if(err) {
+        if (err) {
             res.send(err);
         }
         res.json(comments);
@@ -22,7 +22,7 @@ exports.getAll = function(req, res) {
  */
 exports.getByPostId = function(req, res) {
     Comment.find({postId: req.params.post_id}, function(err, comments) {
-        if(err) {
+        if (err) {
             res.send(err);
         }
         res.json(comments);
@@ -36,7 +36,7 @@ exports.getByPostId = function(req, res) {
  */
 exports.getById = function(req, res) {
     Comment.findById(req.params.comment_id, function(err, comment) {
-        if(err) {
+        if (err) {
             res.send(err);
         }
         res.json(comment);
@@ -59,7 +59,7 @@ exports.create = function(req, res) {
 
     // save comment and check for errors
     comment.save(function(err) {
-        if(err) {
+        if (err) {
             res.send(err);
         }
         res.json(comment);
@@ -73,18 +73,18 @@ exports.create = function(req, res) {
  */
 exports.update = function(req, res) {
     Comment.findById(req.params.comment_id, function(err, comment) {
-        if(err) {
+        if (err) {
             res.send(err);
         }
         
         // if user is authorized
-        if(verifyIdentity(req, comment.userId)) {
+        if (verifyIdentity(req, comment.userId)) {
             // edit comment
             comment.text = req.body.text;
             
             // save the comment
             comment.save(function(err) {
-                if(err) {
+                if (err) {
                     res.send(err);
                 }
                 res.json({message: 'Comment updated'});
@@ -102,17 +102,17 @@ exports.update = function(req, res) {
  */
 exports.delete = function(req, res) {
     Comment.findById(req.params.comment_id, function(err, comment) {
-        if(err) {
+        if (err) {
             res.send(err);
         }
 
         // if user is authorized
-        if(verifyIdentity(req, comment.userId)) {
+        if (verifyIdentity(req, comment.userId)) {
             // delete comment
             Comment.remove({
                 _id: req.params.comment_id
             }, function(err, comment) {
-                if(err) {
+                if (err) {
                     res.send(err);
                 }
                 res.json({message: 'Comment deleted'});
