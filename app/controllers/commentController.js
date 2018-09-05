@@ -118,7 +118,6 @@ exports.delete = function(req, res) {
                 res.json({message: 'Comment deleted'});
             });
         } else {
-            // unauthorized
             res.status(403).send({auth: false, message: 'You can only delete your own comments.'});
         }
     });
