@@ -1,4 +1,5 @@
 var Post = require('../models/post');
+var verifyIdentity = require('../auth/verifyIdentity');
 
 /**
  * get all posts
@@ -56,6 +57,7 @@ exports.create = function(req, res) {
     // set time
     post.postTime = req.body.postTime ? req.body.postTime : new Date();
     post.username = req.body.username;
+    post.userId = req.body.userId;
 
     // save Post and check for errors
     post.save(function(err) {
@@ -73,23 +75,27 @@ exports.create = function(req, res) {
  */
 exports.update = function(req, res) {
     Post.findById(req.params.post_id, function(err, post) {
-        if(err) {
+        if (err) {
             res.send(err);
         }
-        post.topicId = req.body.topicId;
-        post.title = req.body.title;
-        post.text = req.body.text;
-        post.status = req.body.status;
-        post.postTime = req.body.postTime;
-        post.username = req.body.username;
 
-        // save the Post
-        post.save(function(err) {
-            if(err) {
-                res.send(err);
-            }
-            res.json({message: 'Post updated'});
-        });
+        // if user is authorized
+        if (verifyIdentity(req, post.userId)) {
+            // edit post
+            post.title = req.body.title;
+            post.text = req.body.text;
+            post.status = req.body.status;
+
+            // save the Post
+            post.save(function(err) {
+                if(err) {
+                    res.send(err);
+                }
+                res.json({message: 'Post updated'});
+            });
+        } else {
+            res.status(403).send({auth: false, message: 'You can only edit your own comments.'});
+        }
     });
 }
 
@@ -99,12 +105,24 @@ exports.update = function(req, res) {
  * @param {*} res 
  */
 exports.delete = function(req, res) {
-    Post.remove({
-        _id: req.params.post_id
-    }, function(err, post) {
-        if(err) {
+    Post.findById(req.params.post_id, function(err, post) {
+        if (err) {
             res.send(err);
         }
-        res.json({message: 'Post deleted'});
+
+        // if user is authorized
+        if (verifyIdentity(req, post.userId)) {
+            // delete post
+            Post.remove({
+                _id: req.params.post_id
+            }, function(err, post) {
+                if (err) {
+                    res.send(err);
+                }
+                res.json({message: 'Post deleted'});
+            });
+        } else {
+            res.status(403).send({auth: false, message: 'You can only delete your own posts.'});
+        }
     });
 }
