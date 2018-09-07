@@ -40,32 +40,34 @@ exports.getById = function(req, res) {
 exports.create = function(req, res) {
 
     // check if duplicate user exists
-    var duplicateUser = User.find({email: req.body.email}, function(err, user) {
+    User.find({email: req.body.email}, function(err, user) {
         if (err) {
             res.send(err);
         }
-        if(user) {
+        if(!user || user.length != 0) {
+            console.error('duplicate user: ', user);
             res.status(400).send('User with email "' + req.body.email + '" already exists.');
+        } else {
+            var hashedPassword = bcrypt.hashSync(req.body.password, 8);
+        
+            var user = new User();
+            user.username = req.body.username;
+            user.password = hashedPassword;
+            user.email = req.body.email;
+            user.firstname = req.body.firstname;
+            user.lastname = req.body.lastname;
+            user.birthdate = req.body.birthdate;
+        
+            // save user and check for errors
+            user.save(function(err) {
+                if(err) {
+                    res.send(err);
+                }
+                res.json({message: 'User created'});
+            });
         }
-    })
-
-    var hashedPassword = bcrypt.hashSync(req.body.password, 8);
-
-    var user = new User();
-    user.username = req.body.username;
-    user.password = hashedPassword;
-    user.email = req.body.email;
-    user.firstname = req.body.firstname;
-    user.lastname = req.body.lastname;
-    user.birthdate = req.body.birthdate;
-
-    // save user and check for errors
-    user.save(function(err) {
-        if(err) {
-            res.send(err);
-        }
-        res.json({message: 'User created'});
     });
+
 }
 
 
