@@ -1,6 +1,8 @@
 var User = require('../models/user');
 
+// var jwt = require('jsonwebtoken');
 var bcrypt = require('bcryptjs');
+// var config = require('../../config');
 
 /**
  * get all users
@@ -61,9 +63,21 @@ exports.create = function(req, res) {
             // save user and check for errors
             user.save(function(err) {
                 if(err) {
-                    res.send(err);
+                    res.status(500).send('There was a problem registering the user.', err);
                 }
-                res.json({message: 'User created'});
+
+
+                res.status(200).send({message: 'User created'});
+                // var token = jwt.sign({id: user._id}, config.secret, {
+                //     expiresIn: 7200
+                // });
+
+                // res.status(200).send({
+                //     auth: true,
+                //     token: token,
+                //     expiresIn: 7200,
+                //     currentUser: user._id
+                // });
             });
         }
     });

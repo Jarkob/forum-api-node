@@ -4,6 +4,7 @@ var jwt = require('jsonwebtoken');
 var bcrypt = require('bcryptjs');
 var config = require('../../config');
 
+// currently not used
 /**
  * registrate user
  * @param {new user object} req 
@@ -86,7 +87,7 @@ exports.login = function(req, res) {
         res.status(200).send({
             auth: true,
             token: token,
-            expiresIn: 120,
+            expiresIn: 7200,
             currentUser: user._id
         });
     });
